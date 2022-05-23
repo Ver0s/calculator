@@ -1,5 +1,5 @@
 * {
-    marign: 0;
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
@@ -46,6 +46,8 @@ button,
     border-radius: 0.5rem;
 }
 
+/* CONTAINERS */
+
 .buttons-container {
     display: grid;
     gap: 1rem;
@@ -60,6 +62,7 @@ button,
     color: #fff;
     text-align: right;
     margin-bottom: 1rem;
+    padding: 1.5rem;
 }
 
 #reset {
@@ -68,4 +71,10 @@ button,
 
 #equal {
     grid-column: 3/5;
+}
+
+/* MISC */
+
+.title {
+    margin-bottom: 1rem;
 }
