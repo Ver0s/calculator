@@ -2,6 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700;
 }
   
 body {
@@ -9,35 +11,65 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'League Spartan', sans-serif;
-    font-weight: 700;
+    background-color: hsl(222, 26%, 31%);
+    font-size: 2rem;
 }
 
 /* BUTTONS STYLING */
 
 button {
-    padding: 15px 40px;
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 1.5rem;
     text-align: center;
     cursor: pointer;
     outline: none;
     color: #3B4664;
-    background-color: #EAE3DB;
+    background-color: hsl(30, 25%, 89%);
     border: none;
-    box-shadow: 0 4px #999;
+    box-shadow: 0 4px hsl(28, 16%, 65%);
     transition-duration: 0.05s;
-    padding: 0.5rem 1rem;
+    padding: 1rem 1.5rem;
 }
 
-button:active {
-    box-shadow: 0 0px #666;
+#del,
+#reset,
+#equal {
+    color: #fff;
+}
+
+#del,
+#reset {
+    background-color: hsl(225, 21%, 49%);
+    box-shadow: 0 4px hsl(224, 28%, 35%);
+}
+
+#equal {
+    background-color: hsl(6, 63%, 50%);
+    box-shadow: 0 4px hsl(6, 70%, 34%);
+}
+
+/* CLICK ANIMATION STYLE HANDLING */
+
+button:active,
+#equal:active,
+#del:active,
+#reset:active {
     transform: translateY(4px);
 }
 
-.result-container,
-.buttons-container {
-    max-width: 600px;
+button:active {
+    box-shadow: 0 0px hsl(30, 25%, 89%);
+}
+
+#reset:active {
+    box-shadow: 0 0px hsl(224, 28%, 35%);
+}
+
+#del:active {
+    box-shadow: 0 0px hsl(224, 28%, 35%);
+}
+
+#equal:active {
+    box-shadow: 0 0px hsl(6, 70%, 34%);
 }
 
 button,
@@ -52,17 +84,22 @@ button,
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(4, 1fr);
-    background-color: #262d42;
+    background-color: hsl(223, 31%, 20%);
     padding: 1.5rem;
 }
 
 .result-container {
-    background-color: #191f27;
+    background-color: hsl(224, 36%, 15%);
     padding: 0.5rem;
     color: #fff;
     text-align: right;
     margin-bottom: 1rem;
     padding: 1.5rem;
+}
+
+.result-container,
+.buttons-container {
+    max-width: 600px;
 }
 
 #reset {
@@ -77,4 +114,5 @@ button,
 
 .title {
     margin-bottom: 1rem;
+    color: #fff;
 }
