@@ -1,3 +1,4 @@
+/* GENERAL STYLES */
 * {
     margin: 0;
     padding: 0;
@@ -15,8 +16,7 @@ body {
     font-size: 2rem;
 }
 
-/* BUTTONS STYLING */
-
+/* BUTTONS STYLES */
 button {
     font-size: 1.5rem;
     text-align: center;
@@ -48,7 +48,6 @@ button {
 }
 
 /* CLICK ANIMATION STYLE HANDLING */
-
 button:active,
 #equal:active,
 #del:active,
@@ -79,7 +78,6 @@ button,
 }
 
 /* CONTAINERS */
-
 .buttons-container {
     display: grid;
     gap: 1rem;
@@ -111,7 +109,6 @@ button,
 }
 
 /* MISC */
-
 .title {
     margin-bottom: 1rem;
     color: #fff;
