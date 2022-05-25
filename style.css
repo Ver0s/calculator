@@ -94,9 +94,10 @@ button,
     /* set height instead of padding to prevent changing size of the box */
     height: 100px;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    gap: 0.5rem;
     padding: 1.5rem;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 .result-container,
@@ -116,4 +117,9 @@ button,
 .title {
     margin-bottom: 1rem;
     color: #fff;
+}
+
+#result-pending {
+    font-size: 1rem;
+    color: rgba(255,255,255, 0.5);
 }
