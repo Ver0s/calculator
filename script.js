@@ -28,18 +28,18 @@ nums.forEach(num => num.addEventListener('click', (e) => {
 operators.forEach(operator => operator.addEventListener('click', setOperator));
 
 // disable equals if currentNum, previousNum and operator isn't set
-equals.addEventListener('click', () => {
+equals.addEventListener('click', evaluateResult);
+reset.addEventListener('click', resetCalc);
+del.addEventListener('click', deleteNum);
+
+function evaluateResult() {
     result = roundNum(operate(operator, currentNum, previousNum), 3);
     populateDisplay(resultCurrent, result);
     populateDisplay(resultEquation, `${currentNum} ${operator} ${previousNum} = `);
     currentNum = result;
     previousNum = '';
     operator = '';
-})
-
-reset.addEventListener('click', resetCalc);
-
-del.addEventListener('click', deleteNum)
+}
 
 function deleteNum() {
     currentNum = currentNum.toString().slice(0, -1)
@@ -79,9 +79,9 @@ function setOperator(e) {
         case '/':
             operator = '/';
             break;
-        case '=':
-            currentNum = operate(operator, currentNum, previousNum);
-            populateDisplay(resultCurrent, currentNum);
+        // case '=':
+            // currentNum = operate(operator, currentNum, previousNum);
+            // populateDisplay(resultCurrent, currentNum);
 
     }
 }
@@ -128,10 +128,10 @@ function roundNum(num, decimalPlaces) {
     if (typeof num !== 'number') {
         num = Number(num)
     }
-    
+
     if (Number.isInteger(num)) {
         return num
     } else {
-        return num.toFixed(decimalPlaces); 
+        return parseFloat(num.toFixed(decimalPlaces)); 
     }
 }
