@@ -24,12 +24,14 @@ nums.forEach(num => num.addEventListener('click', (e) => {
     }
 }))
 
+// add if here in case user doesn't click equal after two numbers and instead chooses to chain equations
 operators.forEach(operator => operator.addEventListener('click', setOperator));
 
+// disable equals if currentNum, previousNum and operator isn't set
 equals.addEventListener('click', () => {
-    result = operate(operator, currentNum, previousNum);
+    result = roundNum(operate(operator, currentNum, previousNum), 3);
     populateDisplay(resultCurrent, result);
-    populateDisplay(resultEquation, `${currentNum} ${operator} ${previousNum} = ${result}`);
+    populateDisplay(resultEquation, `${currentNum} ${operator} ${previousNum} = `);
     currentNum = result;
     previousNum = '';
     operator = '';
@@ -106,8 +108,8 @@ function divide(num1, num2) {
 }
 
 function operate(operator, num1, num2) {
-    currentNum = Number(currentNum);
-    previousNum = Number(previousNum);
+    num1 = Number(num1);
+    num2 = Number(num2);
     switch(operator) {
         case '+':
             return add(num1, num2);
@@ -119,5 +121,17 @@ function operate(operator, num1, num2) {
             return divide(num1, num2);
         default:
             console.log('error');
+    }
+}
+
+function roundNum(num, decimalPlaces) {
+    if (typeof num !== 'number') {
+        num = Number(num)
+    }
+    
+    if (Number.isInteger(num)) {
+        return num
+    } else {
+        return num.toFixed(decimalPlaces); 
     }
 }
