@@ -117,7 +117,6 @@ function watchDecimalPoint() {
     } else {
         nums.forEach(num => {
             if (num.textContent === '.') {
-                console.log('asd');
                 num.addEventListener('click', handleNumClick);
             }
         })
