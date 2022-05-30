@@ -13,7 +13,7 @@ let operator = '';
 
 populateDisplay(resultCurrent, currentNum);
 
-// todo: get rid of 0 at the beggining of number if it's integer e.g 01 + 2, line 88
+// todo: get rid of 0 at the beggining of number if it's integer e.g 01 + 2, line 96
 // add functionality so dot can be clicked only once
 // fix division by 0
 
@@ -48,26 +48,7 @@ nums.forEach(num => num.addEventListener('click', (e) => {
 reset.addEventListener('click', resetCalc);
 del.addEventListener('click', deleteNum);
 
-function allSet() {
-    if (currentNum !== '' && previousNum !== '' && operator !== '') {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function evaluateResult() {
-    if (previousNum === '') {
-        previousNum = currentNum;
-    }
-    result = roundNum(operate(operator, currentNum, previousNum), 3);
-    populateDisplay(resultCurrent, result);
-    populateDisplay(resultEquation, `${currentNum} ${operator} ${previousNum} = `);
-    currentNum = result;
-    previousNum = '';
-    operator = '';
-}
-
+// BUTTON LOGIC
 function deleteNum() {
     currentNum = currentNum.toString().slice(0, -1);
     if (currentNum === '') {
@@ -84,46 +65,53 @@ function resetCalc() {
     populateDisplay(resultEquation, '');
 }
 
+// DISPLAY
+function populateDisplay(element, content) {
+    return element.textContent = content;
+}
+
+// GENERAL LOGIC
+function allSet() {
+    if (currentNum !== '' && previousNum !== '' && operator !== '') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function evaluateResult() {
+    // This enables the ability to calculate result if we want both nums to be the same
+    if (previousNum === '') {
+        previousNum = currentNum;
+    }
+    result = roundNum(operate(operator, currentNum, previousNum), 3);
+    populateDisplay(resultCurrent, result);
+    populateDisplay(resultEquation, `${currentNum} ${operator} ${previousNum} = `);
+    currentNum = result;
+    previousNum = '';
+    operator = '';
+}
+
 function setNum(e, num) {
-    // FIX THIS
-    // if (currentNum.charAt(1) !== '.') {
-    //     console.log('dupa')
-    //     currentNum.replace(currentNum.charAt(0), '');
-    // }
-    
     if (num === 'currentNum') {
         currentNum += e.target.textContent;
+        //this is to prevent 0 at the beginning of currentNum 
+        if ((currentNum.length > 1) && (currentNum.charAt(0) === '0') && (currentNum.charAt(1) !== '.')) {
+            currentNum = currentNum.slice(1);
+        }
         populateDisplay(resultCurrent, currentNum);
     }
     if (num === 'previousNum') {
         previousNum += e.target.textContent;
         populateDisplay(resultCurrent, previousNum);
-    }
+    }    
 }
 
-function setOperator(e) {
-    switch (e.target.textContent) {
-        case '+':
-            operator = '+';
-            break;
-        case '-':
-            operator = '-';
-            break;
-        case 'x':
-            operator = 'x';
-            break;
-        case '/':
-            operator = '/';
-            break;
-        // case '=':
-            // currentNum = operate(operator, currentNum, previousNum);
-            // populateDisplay(resultCurrent, currentNum);
-
-    }
-}
-
-function populateDisplay(element, content) {
-    return element.textContent = content;
+function watchDecimalPoint() {
+    // if currentNum has more than one decimal point
+    // remove event listener from nums.textContent === ''
+    // else return
+    
 }
 
 // MATH HANDLING
@@ -157,6 +145,23 @@ function operate(operator, num1, num2) {
             return divide(num1, num2);
         default:
             console.log('error');
+    }
+}
+
+function setOperator(e) {
+    switch (e.target.textContent) {
+        case '+':
+            operator = '+';
+            break;
+        case '-':
+            operator = '-';
+            break;
+        case 'x':
+            operator = 'x';
+            break;
+        case '/':
+            operator = '/';
+            break;
     }
 }
 
