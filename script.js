@@ -13,10 +13,6 @@ let operator = '';
 
 populateDisplay(resultCurrent, currentNum);
 
-// todo: get rid of 0 at the beggining of number if it's integer e.g 01 + 2, line 96
-// add functionality so dot can be clicked only once
-// fix division by 0
-
 // EVENT HANDLING
 operators.forEach(operatorBtn => operatorBtn.addEventListener('click', (e) => {
     if (allSet()) {
@@ -36,19 +32,21 @@ equals.addEventListener('click', () => {
     }
 });
 
-nums.forEach(num => num.addEventListener('click', (e) => {
+nums.forEach(num => num.addEventListener('click', handleNumClick));
+
+reset.addEventListener('click', resetCalc);
+del.addEventListener('click', deleteNum);
+
+// BUTTON LOGIC
+function handleNumClick(e) {
     if (operator === '') {
         setNum(e, 'currentNum');
     } else {
         populateDisplay(resultCurrent, currentNum);
         setNum(e, 'previousNum');
     }
-}))
+}
 
-reset.addEventListener('click', resetCalc);
-del.addEventListener('click', deleteNum);
-
-// BUTTON LOGIC
 function deleteNum() {
     currentNum = currentNum.toString().slice(0, -1);
     if (currentNum === '') {
@@ -95,6 +93,7 @@ function evaluateResult() {
 function setNum(e, num) {
     if (num === 'currentNum') {
         currentNum += e.target.textContent;
+        watchDecimalPoint();
         //this is to prevent 0 at the beginning of currentNum 
         if ((currentNum.length > 1) && (currentNum.charAt(0) === '0') && (currentNum.charAt(1) !== '.')) {
             currentNum = currentNum.slice(1);
@@ -103,15 +102,26 @@ function setNum(e, num) {
     }
     if (num === 'previousNum') {
         previousNum += e.target.textContent;
+        watchDecimalPoint();
         populateDisplay(resultCurrent, previousNum);
     }    
 }
 
 function watchDecimalPoint() {
-    // if currentNum has more than one decimal point
-    // remove event listener from nums.textContent === ''
-    // else return
-    
+    if ((currentNum.toString().split(".").length - 1 >= 1) && (previousNum.toString().split(".").length - 1 >= 1)) {
+        nums.forEach(num => {
+            if (num.textContent === '.') {
+                num.removeEventListener('click', handleNumClick);
+            }
+        })
+    } else {
+        nums.forEach(num => {
+            if (num.textContent === '.') {
+                console.log('asd');
+                num.addEventListener('click', handleNumClick);
+            }
+        })
+    } 
 }
 
 // MATH HANDLING
