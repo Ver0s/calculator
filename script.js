@@ -7,13 +7,30 @@ const buttonsContainer = document.querySelector('.buttons-container');
 const resultCurrent = document.querySelector('#result-current')
 const resultEquation = document.querySelector('#result-equation')
 
-let currentNum = '';
+let currentNum = '0';
 let previousNum = '';
 let operator = '';
 
-populateDisplay(resultCurrent, 0);
+populateDisplay(resultCurrent, currentNum);
 
 // EVENT HANDLING
+operators.forEach(operatorBtn => operatorBtn.addEventListener('click', (e) => {
+    if (allSet()) {
+        evaluateResult();
+    }
+    setOperator(e);
+    populateDisplay(resultEquation, `${currentNum} ${operator}`);
+}));
+
+equals.addEventListener('click', () => {
+    if (currentNum !== '' && previousNum === '' && operator !== '') {
+        previousNum = currentNum;
+        evaluateResult();
+    } 
+    else if (allSet()) {
+        evaluateResult();
+    }
+});
 
 nums.forEach(num => num.addEventListener('click', (e) => {
     if (operator === '') {
@@ -24,15 +41,21 @@ nums.forEach(num => num.addEventListener('click', (e) => {
     }
 }))
 
-// add if here in case user doesn't click equal after two numbers and instead chooses to chain equations
-operators.forEach(operator => operator.addEventListener('click', setOperator));
-
-// disable equals if currentNum, previousNum and operator isn't set
-equals.addEventListener('click', evaluateResult);
 reset.addEventListener('click', resetCalc);
 del.addEventListener('click', deleteNum);
 
+function allSet() {
+    if (currentNum !== '' && previousNum !== '' && operator !== '') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function evaluateResult() {
+    if (previousNum === '') {
+        previousNum = currentNum;
+    }
     result = roundNum(operate(operator, currentNum, previousNum), 3);
     populateDisplay(resultCurrent, result);
     populateDisplay(resultEquation, `${currentNum} ${operator} ${previousNum} = `);
@@ -42,7 +65,10 @@ function evaluateResult() {
 }
 
 function deleteNum() {
-    currentNum = currentNum.toString().slice(0, -1)
+    currentNum = currentNum.toString().slice(0, -1);
+    if (currentNum === '') {
+        currentNum = '0';
+    }
     populateDisplay(resultCurrent, currentNum);
 }
 
