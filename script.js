@@ -13,11 +13,15 @@ let operator = '';
 
 populateDisplay(resultCurrent, currentNum);
 
+// todo: get rid of 0 at the beggining of number if it's integer e.g 01 + 2, line 88
+// add functionality so dot can be clicked only once
+// fix division by 0
+
 // EVENT HANDLING
 operators.forEach(operatorBtn => operatorBtn.addEventListener('click', (e) => {
     if (allSet()) {
         evaluateResult();
-    }
+    } 
     setOperator(e);
     populateDisplay(resultEquation, `${currentNum} ${operator}`);
 }));
@@ -73,14 +77,20 @@ function deleteNum() {
 }
 
 function resetCalc() {
-    populateDisplay(resultCurrent, 0);
-    populateDisplay(resultEquation, '');
-    currentNum = '';
+    currentNum = '0';
     previousNum = '';
     operator = '';
+    populateDisplay(resultCurrent, currentNum);
+    populateDisplay(resultEquation, '');
 }
 
 function setNum(e, num) {
+    // FIX THIS
+    // if (currentNum.charAt(1) !== '.') {
+    //     console.log('dupa')
+    //     currentNum.replace(currentNum.charAt(0), '');
+    // }
+    
     if (num === 'currentNum') {
         currentNum += e.target.textContent;
         populateDisplay(resultCurrent, currentNum);
