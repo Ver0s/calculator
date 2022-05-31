@@ -13,6 +13,8 @@ let operator = '';
 
 populateDisplay(resultCurrent, currentNum);
 
+// TODO: FIX DECIMAL POINT AND DELETE
+
 // EVENT HANDLING
 operators.forEach(operatorBtn => operatorBtn.addEventListener('click', (e) => {
     if (allSet()) {
@@ -48,11 +50,19 @@ function handleNumClick(e) {
 }
 
 function deleteNum() {
-    currentNum = currentNum.toString().slice(0, -1);
-    if (currentNum === '') {
-        currentNum = '0';
+    if (previousNum === '') {
+        currentNum = currentNum.toString().slice(0, -1);
+        if (currentNum === '') {
+            currentNum = '0';
+        }
+        populateDisplay(resultCurrent, currentNum);
+    } else {
+        previousNum = previousNum.toString().slice(0, -1);
+        if (previousNum === '') {
+            previousNum = '0';
+        }
+        populateDisplay(resultCurrent, previousNum);
     }
-    populateDisplay(resultCurrent, currentNum);
 }
 
 function resetCalc() {
@@ -103,12 +113,15 @@ function setNum(e, num) {
     if (num === 'previousNum') {
         previousNum += e.target.textContent;
         watchDecimalPoint();
+        if ((previousNum.length > 1) && (previousNum.charAt(0) === '0') && (previousNum.charAt(1) !== '.')) {
+            previousNum = previousNum.slice(1);
+        }
         populateDisplay(resultCurrent, previousNum);
     }    
 }
 
 function watchDecimalPoint() {
-    if ((currentNum.toString().split(".").length - 1 >= 1) && (previousNum.toString().split(".").length - 1 >= 1)) {
+    if ((currentNum.toString().split(".").length - 1 >= 1) || (previousNum.toString().split(".").length - 1 >= 1)) {
         nums.forEach(num => {
             if (num.textContent === '.') {
                 num.removeEventListener('click', handleNumClick);
