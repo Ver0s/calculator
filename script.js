@@ -19,7 +19,12 @@ populateDisplay(resultCurrent, currentNum);
 operators.forEach(operatorBtn => operatorBtn.addEventListener('click', (e) => {
     if (allSet()) {
         evaluateResult();
-    } 
+    }
+    nums.forEach(num => {
+        if (num.textContent === '.') {
+            num.addEventListener('click', handleNumClick);
+        }
+    })
     setOperator(e);
     populateDisplay(resultEquation, `${currentNum} ${operator}`);
 }));
@@ -103,7 +108,7 @@ function evaluateResult() {
 function setNum(e, num) {
     if (num === 'currentNum') {
         currentNum += e.target.textContent;
-        watchDecimalPoint();
+        watchDecimalPoint('currentNum');
         //this is to prevent 0 at the beginning of currentNum 
         if ((currentNum.length > 1) && (currentNum.charAt(0) === '0') && (currentNum.charAt(1) !== '.')) {
             currentNum = currentNum.slice(1);
@@ -112,7 +117,7 @@ function setNum(e, num) {
     }
     if (num === 'previousNum') {
         previousNum += e.target.textContent;
-        watchDecimalPoint();
+        watchDecimalPoint('previousNum');
         if ((previousNum.length > 1) && (previousNum.charAt(0) === '0') && (previousNum.charAt(1) !== '.')) {
             previousNum = previousNum.slice(1);
         }
@@ -120,20 +125,26 @@ function setNum(e, num) {
     }    
 }
 
-function watchDecimalPoint() {
-    if ((currentNum.toString().split(".").length - 1 >= 1) || (previousNum.toString().split(".").length - 1 >= 1)) {
-        nums.forEach(num => {
-            if (num.textContent === '.') {
-                num.removeEventListener('click', handleNumClick);
-            }
-        })
-    } else {
-        nums.forEach(num => {
-            if (num.textContent === '.') {
-                num.addEventListener('click', handleNumClick);
-            }
-        })
-    } 
+function watchDecimalPoint(num) {
+    if (num === 'currentNum') {
+        if ((currentNum.toString().split(".").length - 1 >= 1)) {
+            nums.forEach(num => {
+                if (num.textContent === '.') {
+                    num.removeEventListener('click', handleNumClick);
+                }
+            })
+        }
+    }
+
+    if (num === 'previousNum') {
+        if ((previousNum.toString().split(".").length - 1 >= 1)) {
+            nums.forEach(num => {
+                if (num.textContent === '.') {
+                    num.removeEventListener('click', handleNumClick);
+                }
+            })
+        }
+    }
 }
 
 // MATH HANDLING
