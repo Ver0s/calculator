@@ -101,6 +101,7 @@ function evaluateResult() {
     populateDisplay(resultCurrent, result);
     populateDisplay(resultEquation, `${currentNum} ${operator} ${previousNum} = `);
     currentNum = result;
+    watchDecimalPoint(currentNum);
     previousNum = '';
     operator = '';
 }
@@ -108,7 +109,7 @@ function evaluateResult() {
 function setNum(e, num) {
     if (num === 'currentNum') {
         currentNum += e.target.textContent;
-        watchDecimalPoint('currentNum');
+        watchDecimalPoint(currentNum);
         //this is to prevent 0 at the beginning of currentNum 
         if ((currentNum.length > 1) && (currentNum.charAt(0) === '0') && (currentNum.charAt(1) !== '.')) {
             currentNum = currentNum.slice(1);
@@ -117,7 +118,7 @@ function setNum(e, num) {
     }
     if (num === 'previousNum') {
         previousNum += e.target.textContent;
-        watchDecimalPoint('previousNum');
+        watchDecimalPoint(previousNum);
         if ((previousNum.length > 1) && (previousNum.charAt(0) === '0') && (previousNum.charAt(1) !== '.')) {
             previousNum = previousNum.slice(1);
         }
@@ -125,25 +126,13 @@ function setNum(e, num) {
     }    
 }
 
-function watchDecimalPoint(num) {
-    if (num === 'currentNum') {
-        if ((currentNum.toString().split(".").length - 1 >= 1)) {
-            nums.forEach(num => {
-                if (num.textContent === '.') {
-                    num.removeEventListener('click', handleNumClick);
-                }
-            })
-        }
-    }
-
-    if (num === 'previousNum') {
-        if ((previousNum.toString().split(".").length - 1 >= 1)) {
-            nums.forEach(num => {
-                if (num.textContent === '.') {
-                    num.removeEventListener('click', handleNumClick);
-                }
-            })
-        }
+function watchDecimalPoint(number) {
+    if ((number.toString().split(".").length - 1 >= 1)) {
+        nums.forEach(num => {
+            if (num.textContent === '.') {
+                num.removeEventListener('click', handleNumClick);
+            }
+        })
     }
 }
 
