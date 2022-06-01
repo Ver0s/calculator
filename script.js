@@ -13,8 +13,6 @@ let operator = '';
 
 populateDisplay(resultCurrent, currentNum);
 
-// TODO: FIX DECIMAL POINT AND DELETE
-
 // EVENT HANDLING
 operators.forEach(operatorBtn => operatorBtn.addEventListener('click', (e) => {
     if (allSet()) {
