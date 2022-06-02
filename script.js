@@ -13,6 +13,8 @@ let operator = '';
 
 populateDisplay(resultCurrent, currentNum);
 
+// FIX DIVISION BY 0
+
 // EVENT HANDLING
 operators.forEach(operatorBtn => operatorBtn.addEventListener('click', (e) => {
     if (allSet()) {
@@ -37,7 +39,9 @@ equals.addEventListener('click', () => {
     }
 });
 
-nums.forEach(num => num.addEventListener('click', handleNumClick));
+nums.forEach(num => num.addEventListener('click', (e) => {
+    handleNumClick(e);
+}));
 
 reset.addEventListener('click', resetCalc);
 del.addEventListener('click', deleteNum);
@@ -95,13 +99,20 @@ function evaluateResult() {
     if (previousNum === '') {
         previousNum = currentNum;
     }
-    result = roundNum(operate(operator, currentNum, previousNum), 3);
-    populateDisplay(resultCurrent, result);
-    populateDisplay(resultEquation, `${currentNum} ${operator} ${previousNum} = `);
-    currentNum = result;
-    watchDecimalPoint(currentNum);
-    previousNum = '';
-    operator = '';
+    if (previousNum === '0' || currentNum === '0' && operator === '/') {
+        populateDisplay(resultCurrent, 'bruh');
+        populateDisplay(resultEquation, '');
+        populateDisplay(resultEquation, 'resetting calculator...')
+        setTimeout(resetCalc, 1500);
+    } else {
+        result = roundNum(operate(operator, currentNum, previousNum), 3);
+        populateDisplay(resultCurrent, result);
+        populateDisplay(resultEquation, `${currentNum} ${operator} ${previousNum} = `);
+        currentNum = result;
+        watchDecimalPoint(currentNum);
+        previousNum = '';
+        operator = '';
+    }
 }
 
 function setNum(e, num) {
